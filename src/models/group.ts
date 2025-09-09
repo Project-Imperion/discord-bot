@@ -8,6 +8,7 @@ export interface IGroup extends Document {
 	bannerUrl: string;
 	roleId: string;
 	memberCount: number;
+	discordInvite: string;
 }
 
 const GroupSchema = new Schema<IGroup>({
@@ -18,6 +19,7 @@ const GroupSchema = new Schema<IGroup>({
 	bannerUrl: { type: String, required: false },
 	roleId: { type: String, required: false },
 	memberCount: { type: Number, required: false, default: 0 },
+	discordInvite: { type: String, required: false },
 });
 
 export default model<IGroup>("Group", GroupSchema);

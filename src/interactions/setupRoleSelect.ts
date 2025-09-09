@@ -20,6 +20,7 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 	const roleId = interaction.values[0];
 
 	// Get current member count for the selected role
+	await guild.members.fetch();
 	const memberCount = guild.members.cache.filter(m => m.roles.cache.has(roleId)).size;
 
 	// Update group record for this guild

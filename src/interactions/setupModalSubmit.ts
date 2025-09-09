@@ -23,7 +23,6 @@ export async function handle(interaction: ModalSubmitInteraction) {
 	const longDesc = interaction.fields.getTextInputValue("longDesc");
 	const bannerUrl = interaction.fields.getTextInputValue("bannerUrl");
 
-	// Upsert group record for this guild
 	await Group.findOneAndUpdate(
 		{ guildId: guild.id },
 		{
@@ -33,7 +32,7 @@ export async function handle(interaction: ModalSubmitInteraction) {
 			bannerUrl,
 			roleId: "",
 			memberCount: 0,
-			guildId: guild.id
+			guildId: guild.id,
 		},
 		{ upsert: true, new: true, setDefaultsOnInsert: true }
 	);

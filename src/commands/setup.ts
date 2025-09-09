@@ -1,5 +1,3 @@
-// Inside setup.ts
-
 import {
 	ActionRowBuilder,
 	ChatInputCommandInteraction,
@@ -11,6 +9,8 @@ import {
 	TextInputStyle
 } from "discord.js";
 
+import Group from "../models/group.js";
+
 export const data = new SlashCommandBuilder()
 	.setName("setup")
 	.setDescription("Start setting up your group")
@@ -18,7 +18,15 @@ export const data = new SlashCommandBuilder()
 	.setContexts(InteractionContextType.Guild);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
-	const guildName = interaction.guild?.name ?? "";
+	const group = await Group.findOne({
+		guildId: interaction.guildId!
+	});
+
+	const guildName = group?.name ?? interaction.guild?.name ?? "";
+	const shortDesc = group?.shortDesc ?? "";
+	const longDesc = group?.longDesc ?? "";
+	const bannerUrl = group?.bannerUrl ?? "";
+
 	const modal = new ModalBuilder()
 		.setCustomId(`setup-modal-${interaction.user.id}`)
 		.setTitle("Group Setup")
@@ -39,6 +47,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 					.setStyle(TextInputStyle.Short)
 					.setMaxLength(128)
 					.setRequired(true)
+					.setValue(shortDesc)
 			),
 			new ActionRowBuilder<TextInputBuilder>().addComponents(
 				new TextInputBuilder()
@@ -47,6 +56,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 					.setStyle(TextInputStyle.Paragraph)
 					.setMaxLength(2000)
 					.setRequired(true)
+					.setValue(longDesc)
 			),
 			new ActionRowBuilder<TextInputBuilder>().addComponents(
 				new TextInputBuilder()
@@ -54,6 +64,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 					.setLabel("Banner Image URL")
 					.setStyle(TextInputStyle.Short)
 					.setRequired(false)
+					.setValue(bannerUrl)
 			)
 		);
 
