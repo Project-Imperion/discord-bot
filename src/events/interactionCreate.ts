@@ -1,11 +1,9 @@
 import { ChatInputCommandInteraction, Client, Interaction, ModalSubmitInteraction, RoleSelectMenuInteraction } from "discord.js";
 
-import fs from "fs";
-import path from "path";
+import setupModalSubmit from "../interactions/setupModalSubmit.js";
+import setupRoleSelect from "../interactions/setupRoleSelect.js";
 
-// Dynamically load all interaction handlers
-const interactionHandlerFiles = fs.readdirSync(path.join(__dirname, "../interactions")).filter(f => f.endsWith(".ts") || f.endsWith(".js"));
-const interactionHandlers = interactionHandlerFiles.map(file => require(path.join(__dirname, "../interactions", file)));
+const interactionHandlers = [setupModalSubmit, setupRoleSelect];
 
 // Exported for use in index.ts
 export default async function interactionCreate(
@@ -31,6 +29,7 @@ export default async function interactionCreate(
 			interaction.isModalSubmit() &&
 			interaction.customId.startsWith(handler.customIdPrefix)
 		) {
+			//@ts-ignore
 			await handler.handle(interaction as ModalSubmitInteraction);
 			return;
 		}
@@ -38,6 +37,7 @@ export default async function interactionCreate(
 			interaction.isRoleSelectMenu() &&
 			interaction.customId.startsWith(handler.customIdPrefix)
 		) {
+			//@ts-ignore
 			await handler.handle(interaction as RoleSelectMenuInteraction);
 			return;
 		}

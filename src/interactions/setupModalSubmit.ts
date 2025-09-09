@@ -53,3 +53,8 @@ export async function handle(interaction: ModalSubmitInteraction) {
 		ephemeral: true,
 	});
 }
+
+export default {
+	customIdPrefix,
+	handle,
+}

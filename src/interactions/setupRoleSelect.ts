@@ -42,3 +42,8 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 		components: [],
 	});
 }
+
+export default {
+	customIdPrefix,
+	handle,
+}
