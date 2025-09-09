@@ -2,11 +2,9 @@ import { Client, GatewayIntentBits, Interaction, REST, Routes } from "discord.js
 
 import { connectMongo } from "./utils/mongo";
 import dotenv from "dotenv";
-import fs from "fs";
 import guildMemberUpdate from "./events/guildMemberUpdate";
 import interactionCreate from "./events/interactionCreate";
-import path from "path";
-import { pathToFileURL } from "url";
+import setupCommand from "./commands/setup.js";
 
 export class ExtendedClient extends Client {
 	commands: Map<string, any> = new Map();
@@ -27,20 +25,14 @@ const client = new ExtendedClient({
 client.once("ready", async () => {
 	console.log("Discord bot is ready!");
 
-	// Prepare the command registry
 	client.commands = new Map<string, any>();
-	const commands: any[] = [];
-	const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.ts') || file.endsWith('.js'));
 
-	for (const file of commandFiles) {
-		const filePath = path.join(__dirname, 'commands', file);
-		const moduleURL = pathToFileURL(filePath).toString();
-		const commandModule = await import(moduleURL);
-		// Each command file must export { data, execute }
-		if (commandModule.data && commandModule.execute) {
-			client.commands.set(commandModule.data.name, commandModule);
-			commands.push(commandModule.data.toJSON());
-		}
+	const commandModules = [setupCommand];
+	const commands: any[] = [];
+
+	for (const commandModule of commandModules) {
+		client.commands.set(commandModule.data.name, commandModule);
+		commands.push(commandModule.data.toJSON());
 	}
 
 	const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN!);

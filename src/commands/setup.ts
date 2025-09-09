@@ -59,3 +59,8 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
 	await interaction.showModal(modal);
 }
+
+export default {
+	data,
+	execute
+}
