@@ -78,9 +78,8 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 		return;
 	}
 
-
 	await interaction.update({
-		content: "Role menu updated! Users can now select roles from the menu in the original message.",
+		content: "Role menu updated! Users can now select roles from the menu in the original message. If you dont see the embedded instructions, please check I have permission to embed links in this channel.",
 		components: [],
 	});
 }
