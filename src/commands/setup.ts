@@ -22,7 +22,6 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 		guildId: interaction.guildId!
 	});
 
-	const guildName = group?.name ?? interaction.guild?.name ?? "";
 	const shortDesc = group?.shortDesc ?? "";
 	const longDesc = group?.longDesc ?? "";
 	const bannerUrl = group?.bannerUrl ?? "";
@@ -34,15 +33,6 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 		.setCustomId(`setup-modal-${interaction.user.id}`)
 		.setTitle("Group Setup")
 		.addComponents(
-			new ActionRowBuilder<TextInputBuilder>().addComponents(
-				new TextInputBuilder()
-					.setCustomId("groupName")
-					.setLabel("Group Name")
-					.setStyle(TextInputStyle.Short)
-					.setMaxLength(64)
-					.setRequired(true)
-					.setValue(guildName)
-			),
 			new ActionRowBuilder<TextInputBuilder>().addComponents(
 				new TextInputBuilder()
 					.setCustomId("shortDesc")

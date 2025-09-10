@@ -18,7 +18,7 @@ export async function handle(interaction: ModalSubmitInteraction) {
 		return;
 	}
 
-	const groupName = interaction.fields.getTextInputValue("groupName");
+	const groupName = interaction.guild.name;
 	const shortDesc = interaction.fields.getTextInputValue("shortDesc");
 	const longDesc = interaction.fields.getTextInputValue("longDesc");
 	const bannerUrl = interaction.fields.getTextInputValue("bannerUrl");
