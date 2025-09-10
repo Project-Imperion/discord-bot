@@ -22,6 +22,7 @@ export async function handle(interaction: ModalSubmitInteraction) {
 	const shortDesc = interaction.fields.getTextInputValue("shortDesc");
 	const longDesc = interaction.fields.getTextInputValue("longDesc");
 	const bannerUrl = interaction.fields.getTextInputValue("bannerUrl");
+	const websiteUrl = interaction.fields.getTextInputValue("websiteUrl");
 	const discordInvite = interaction.fields.getTextInputValue("discordInvite").trim();
 
 	if (discordInvite && !/^https?:\/\/(www\.)?discord\.gg\/.+$/.test(discordInvite)) {
@@ -36,6 +37,7 @@ export async function handle(interaction: ModalSubmitInteraction) {
 			shortDesc,
 			longDesc,
 			bannerUrl,
+			websiteUrl,
 			memberCount: 0,
 			discordInvite,
 			guildId: guild.id,

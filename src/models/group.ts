@@ -6,6 +6,7 @@ export interface IGroup extends Document {
 	shortDesc: string;
 	longDesc: string;
 	bannerUrl: string;
+	websiteUrl: string;
 	roleId: string;
 	deadRoleId: string;
 	memberCount: number;
@@ -19,6 +20,7 @@ const GroupSchema = new Schema<IGroup>({
 	shortDesc: { type: String, required: true, maxlength: 128 },
 	longDesc: { type: String, required: true, maxlength: 2000 },
 	bannerUrl: { type: String, required: false },
+	websiteUrl: { type: String, required: false },
 	roleId: { type: String, required: false },
 	deadRoleId: { type: String, required: false },
 	memberCount: { type: Number, required: false, default: 0 },
