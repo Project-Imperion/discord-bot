@@ -45,12 +45,19 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 
 	const group = await Groups.findOne({ guildId: guild.id });
 
+	const memberRole = group?.roleId ? guild.roles.cache.get(group.roleId) : null;
+	const deadRole = group?.deadRoleId ? guild.roles.cache.get(group.deadRoleId) : null;
+
 	currentRoleMenu.roles = interaction.values.map(roleId => ({ roleId }));
 	await currentRoleMenu.save();
 
 	const embed = new EmbedBuilder()
 		.setTitle("Role Menu")
-		.setDescription("Select roles from the menu below to assign or remove them from yourself.")
+		.setDescription(
+			"Select roles from the menu below to assign or remove them from yourself."
+			+ (memberRole && currentRoleMenu.roles.find(role => role.roleId === memberRole.id) ? `\n\nAssign **${memberRole.name}** to become a member of the group` : "")
+			+ (deadRole && currentRoleMenu.roles.find(role => role.roleId === deadRole.id) ? `\n\nAssign **${deadRole.name}** if / when you die in the event` : "")
+		)
 		.setColor(0x4C061D);
 
 	const components: ActionRowBuilder<MessageActionRowComponentBuilder>[] = [];
