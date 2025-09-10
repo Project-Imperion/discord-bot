@@ -28,9 +28,9 @@ client.once("ready", async () => {
 
 	client.user?.setPresence({
 		activities: [{
-			name: "Project-Imperia.com",
+			name: "Project-Imperion.com",
 			type: ActivityType.Custom,
-			state: "Project-Imperia.com"
+			state: "Project-Imperion.com"
 		}],
 		status: "online"
 	});
