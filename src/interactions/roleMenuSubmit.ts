@@ -1,5 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, MessageActionRowComponentBuilder } from "discord.js";
 
+import Groups from "../models/group.js";
 import RoleMenu from "../models/roleMenu.js";
 import { RoleSelectMenuInteraction } from "discord.js";
 
@@ -42,6 +43,7 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 		}
 	}
 
+	const group = await Groups.findOne({ guildId: guild.id });
 
 	currentRoleMenu.roles = interaction.values.map(roleId => ({ roleId }));
 	await currentRoleMenu.save();
@@ -59,7 +61,11 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 			new ButtonBuilder()
 				.setCustomId(`role-menu-use-${role.roleId}`)
 				.setLabel(guild.roles.cache.get(role.roleId)?.name || "Unknown Role")
-				.setStyle(ButtonStyle.Secondary)
+				.setStyle(
+					group?.roleId === role.roleId ? ButtonStyle.Primary :
+						group?.deadRoleId === role.roleId ? ButtonStyle.Danger :
+							ButtonStyle.Secondary
+				)
 		);
 		row.addComponents(...buttonsForRow);
 		components.push(row);
