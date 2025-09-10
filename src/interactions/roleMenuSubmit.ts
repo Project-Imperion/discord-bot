@@ -30,7 +30,7 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 		}
 
 		const message = await interaction.channel.send({
-			content: "Setting up the role menu...",
+			content: "Setting up role menu...",
 		});
 
 		currentRoleMenu.messageId = message.id;
@@ -62,6 +62,7 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 
 	await interaction.channel?.messages.fetch(currentRoleMenu.messageId).then(async (msg) => {
 		await msg.edit({
+			content: "",
 			embeds: [embed],
 			components
 		});
