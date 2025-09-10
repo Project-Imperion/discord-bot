@@ -45,7 +45,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 			new ActionRowBuilder<TextInputBuilder>().addComponents(
 				new TextInputBuilder()
 					.setCustomId("longDesc")
-					.setLabel("Long Description")
+					.setLabel("Long Description (supports markdown)")
 					.setStyle(TextInputStyle.Paragraph)
 					.setMaxLength(2000)
 					.setRequired(true)
@@ -62,7 +62,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 			new ActionRowBuilder<TextInputBuilder>().addComponents(
 				new TextInputBuilder()
 					.setCustomId("websiteUrl")
-					.setLabel("Website URL")
+					.setLabel("Website URL (start with https://)")
 					.setStyle(TextInputStyle.Short)
 					.setRequired(false)
 					.setValue(websiteUrl)
