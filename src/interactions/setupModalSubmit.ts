@@ -30,7 +30,6 @@ export async function handle(interaction: ModalSubmitInteraction) {
 			shortDesc,
 			longDesc,
 			bannerUrl,
-			roleId: "",
 			memberCount: 0,
 			guildId: guild.id,
 		},
