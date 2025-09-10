@@ -29,11 +29,17 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 			return;
 		}
 
-		const message = await interaction.channel.send({
-			content: "Setting up role menu...",
-		});
+		try {
+			const message = await interaction.channel.send({
+				content: "Setting up role menu...",
+			});
 
-		currentRoleMenu.messageId = message.id;
+			currentRoleMenu.messageId = message.id;
+
+		} catch (error) {
+			await interaction.reply({ content: "There was an error setting up the role menu. Please check I have permissions to send messages in this channel.", ephemeral: true });
+			return;
+		}
 	}
 
 
