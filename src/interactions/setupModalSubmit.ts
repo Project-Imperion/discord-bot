@@ -50,11 +50,24 @@ export async function handle(interaction: ModalSubmitInteraction) {
 		.setMinValues(1)
 		.setMaxValues(1);
 
-	const row = new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(roleMenu);
+	const deadMenu = new RoleSelectMenuBuilder()
+		.setCustomId(`dead-role-select-${guild.id}`)
+		.setPlaceholder(`Select the role to assign to dead members`)
+		.setMinValues(1)
+		.setMaxValues(1);
+
+	const roleRow = new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(roleMenu);
+	const deadRow = new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(deadMenu);
 
 	await interaction.reply({
-		content: "Now select a role to track:",
-		components: [row],
+		content: "Now select roles to track member count:",
+		components: [roleRow],
+		ephemeral: true,
+	});
+
+	await interaction.followUp({
+		content: "Select the role you will assign to dead members:",
+		components: [deadRow],
 		ephemeral: true,
 	});
 }

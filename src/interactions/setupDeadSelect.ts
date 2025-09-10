@@ -1,9 +1,7 @@
-// src/interactions/setupRoleSelect.ts
-
 import Group from "../models/group.js";
 import { RoleSelectMenuInteraction } from "discord.js";
 
-export const customIdPrefix = "role-select-";
+export const customIdPrefix = "dead-role-select-";
 
 export async function handle(interaction: RoleSelectMenuInteraction) {
 	const guild = interaction.guild;
@@ -17,16 +15,16 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 		return;
 	}
 
-	const roleId = interaction.values[0];
+	const deadRoleId = interaction.values[0];
 
 	// Get current member count for the selected role
 	await guild.members.fetch();
-	const memberCount = guild.members.cache.filter(m => m.roles.cache.has(roleId)).size;
+	const deadCount = guild.members.cache.filter(m => m.roles.cache.has(deadRoleId)).size;
 
 	// Update group record for this guild
 	const result = await Group.findOneAndUpdate(
 		{ guildId: guild.id },
-		{ roleId, memberCount },
+		{ deadRoleId, deadCount },
 		{ new: true }
 	);
 
@@ -39,7 +37,7 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 	}
 
 	await interaction.update({
-		content: "Role selection complete! Your member count will now be tracked.",
+		content: "Dead role selection complete! Remember to update people with the dead role, we suggest using /role-menu for this.",
 		components: [],
 	});
 }

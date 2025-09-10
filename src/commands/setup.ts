@@ -62,7 +62,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 			new ActionRowBuilder<TextInputBuilder>().addComponents(
 				new TextInputBuilder()
 					.setCustomId("bannerUrl")
-					.setLabel("Banner Image URL")
+					.setLabel("Banner Image URL (we recommend 600x900)")
 					.setStyle(TextInputStyle.Short)
 					.setRequired(false)
 					.setValue(bannerUrl)

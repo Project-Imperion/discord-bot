@@ -4,6 +4,7 @@ import { connectMongo } from "./utils/mongo";
 import dotenv from "dotenv";
 import guildMemberUpdate from "./events/guildMemberUpdate";
 import interactionCreate from "./events/interactionCreate";
+import roleMenuCommand from "./commands/roleMenu.js";
 import setupCommand from "./commands/setup.js";
 
 export class ExtendedClient extends Client {
@@ -36,7 +37,7 @@ client.once("ready", async () => {
 
 	client.commands = new Map<string, any>();
 
-	const commandModules = [setupCommand];
+	const commandModules = [setupCommand, roleMenuCommand];
 	const commands: any[] = [];
 
 	for (const commandModule of commandModules) {

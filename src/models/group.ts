@@ -7,7 +7,9 @@ export interface IGroup extends Document {
 	longDesc: string;
 	bannerUrl: string;
 	roleId: string;
+	deadRoleId: string;
 	memberCount: number;
+	deadCount: number;
 	discordInvite: string;
 }
 
@@ -18,7 +20,9 @@ const GroupSchema = new Schema<IGroup>({
 	longDesc: { type: String, required: true, maxlength: 2000 },
 	bannerUrl: { type: String, required: false },
 	roleId: { type: String, required: false },
+	deadRoleId: { type: String, required: false },
 	memberCount: { type: Number, required: false, default: 0 },
+	deadCount: { type: Number, required: false, default: 0 },
 	discordInvite: { type: String, required: false },
 });
 

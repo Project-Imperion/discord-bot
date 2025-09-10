@@ -1,9 +1,12 @@
 import { ChatInputCommandInteraction, Client, Interaction, ModalSubmitInteraction, RoleSelectMenuInteraction } from "discord.js";
 
+import roleMenuSubmit from "../interactions/roleMenuSubmit.js";
+import roleMenuUse from "../interactions/roleMenuUse.js";
+import setupDeadSelect from "../interactions/setupDeadSelect.js";
 import setupModalSubmit from "../interactions/setupModalSubmit.js";
 import setupRoleSelect from "../interactions/setupRoleSelect.js";
 
-const interactionHandlers = [setupModalSubmit, setupRoleSelect];
+const interactionHandlers = [setupModalSubmit, setupRoleSelect, setupDeadSelect, roleMenuSubmit, roleMenuUse];
 
 // Exported for use in index.ts
 export default async function interactionCreate(
@@ -39,6 +42,14 @@ export default async function interactionCreate(
 		) {
 			//@ts-ignore
 			await handler.handle(interaction as RoleSelectMenuInteraction);
+			return;
+		}
+		if (
+			interaction.isButton() &&
+			interaction.customId.startsWith(handler.customIdPrefix)
+		) {
+			//@ts-ignore
+			await handler.handle(interaction as ButtonInteraction);
 			return;
 		}
 	}
