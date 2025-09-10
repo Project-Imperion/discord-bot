@@ -37,7 +37,7 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 			currentRoleMenu.messageId = message.id;
 
 		} catch (error) {
-			await interaction.reply({ content: "There was an error setting up the role menu. Please check I have permissions to send messages in this channel.", ephemeral: true });
+			await interaction.reply({ content: "There was an error setting up the role menu. Please check I have permissions to send messages and embed links in this channel.", ephemeral: true });
 			return;
 		}
 	}
@@ -65,14 +65,18 @@ export async function handle(interaction: RoleSelectMenuInteraction) {
 		components.push(row);
 	}
 
-
-	await interaction.channel?.messages.fetch(currentRoleMenu.messageId).then(async (msg) => {
-		await msg.edit({
-			content: "",
-			embeds: [embed],
-			components
+	try {
+		await interaction.channel?.messages.fetch(currentRoleMenu.messageId).then(async (msg) => {
+			await msg.edit({
+				content: "",
+				embeds: [embed],
+				components
+			});
 		});
-	});
+	} catch (error) {
+		await interaction.reply({ content: "There was an error updating the role menu message. Please check I have permissions to manage messages in this channel.", ephemeral: true });
+		return;
+	}
 
 
 	await interaction.update({
