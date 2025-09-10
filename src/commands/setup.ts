@@ -26,6 +26,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 	const shortDesc = group?.shortDesc ?? "";
 	const longDesc = group?.longDesc ?? "";
 	const bannerUrl = group?.bannerUrl ?? "";
+	const discordInvite = group?.discordInvite ?? "";
 
 	const modal = new ModalBuilder()
 		.setCustomId(`setup-modal-${interaction.user.id}`)
@@ -65,6 +66,14 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 					.setStyle(TextInputStyle.Short)
 					.setRequired(false)
 					.setValue(bannerUrl)
+			),
+			new ActionRowBuilder<TextInputBuilder>().addComponents(
+				new TextInputBuilder()
+					.setCustomId("discordInvite")
+					.setLabel("Discord Invite URL")
+					.setStyle(TextInputStyle.Short)
+					.setRequired(false)
+					.setValue(discordInvite)
 			)
 		);
 

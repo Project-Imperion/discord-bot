@@ -1,6 +1,5 @@
 import { ActivityType, Client, GatewayIntentBits, Interaction, REST, Routes } from "discord.js";
 
-import addDiscordLink from "./commands/addDiscordLink";
 import { connectMongo } from "./utils/mongo";
 import dotenv from "dotenv";
 import guildMemberUpdate from "./events/guildMemberUpdate";
@@ -37,7 +36,7 @@ client.once("ready", async () => {
 
 	client.commands = new Map<string, any>();
 
-	const commandModules = [setupCommand, addDiscordLink];
+	const commandModules = [setupCommand];
 	const commands: any[] = [];
 
 	for (const commandModule of commandModules) {

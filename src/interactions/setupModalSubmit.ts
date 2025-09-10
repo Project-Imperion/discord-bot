@@ -22,6 +22,12 @@ export async function handle(interaction: ModalSubmitInteraction) {
 	const shortDesc = interaction.fields.getTextInputValue("shortDesc");
 	const longDesc = interaction.fields.getTextInputValue("longDesc");
 	const bannerUrl = interaction.fields.getTextInputValue("bannerUrl");
+	const discordInvite = interaction.fields.getTextInputValue("discordInvite").trim();
+
+	if (discordInvite && !/^https?:\/\/(www\.)?discord\.gg\/.+$/.test(discordInvite)) {
+		await interaction.reply({ content: "Please provide a valid Discord invite link.", ephemeral: true });
+		return;
+	}
 
 	await Group.findOneAndUpdate(
 		{ guildId: guild.id },
@@ -31,6 +37,7 @@ export async function handle(interaction: ModalSubmitInteraction) {
 			longDesc,
 			bannerUrl,
 			memberCount: 0,
+			discordInvite,
 			guildId: guild.id,
 		},
 		{ upsert: true, new: true, setDefaultsOnInsert: true }
