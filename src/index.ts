@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Interaction, REST, Routes } from "discord.js";
+import { ActivityType, Client, GatewayIntentBits, Interaction, REST, Routes } from "discord.js";
 
 import addDiscordLink from "./commands/addDiscordLink";
 import { connectMongo } from "./utils/mongo";
@@ -25,6 +25,15 @@ const client = new ExtendedClient({
 // Register global slash commands when the bot is ready
 client.once("ready", async () => {
 	console.log("Discord bot is ready!");
+
+	client.user?.setPresence({
+		activities: [{
+			name: "Project-Imperia.com",
+			type: ActivityType.Custom,
+			state: "Project-Imperia.com"
+		}],
+		status: "online"
+	});
 
 	client.commands = new Map<string, any>();
 
