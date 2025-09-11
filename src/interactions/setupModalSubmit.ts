@@ -62,13 +62,13 @@ export async function handle(interaction: ModalSubmitInteraction) {
 	const deadRow = new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(deadMenu);
 
 	await interaction.reply({
-		content: "Now select roles to track member count:",
+		content: "Optional: Now select roles to track member count:",
 		components: [roleRow],
 		ephemeral: true,
 	});
 
 	await interaction.followUp({
-		content: "Select the role you will assign to dead members:",
+		content: "Optional: Select the role you will assign to dead members:",
 		components: [deadRow],
 		ephemeral: true,
 	});

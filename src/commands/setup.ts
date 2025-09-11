@@ -18,6 +18,17 @@ export const data = new SlashCommandBuilder()
 	.setContexts(InteractionContextType.Guild);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
+	const guild = interaction.guild;
+	if (!guild) {
+		await interaction.reply({ content: "Setup must be run in a server with the bot present.", ephemeral: true });
+		return;
+	}
+
+	if (!interaction.memberPermissions?.has("Administrator")) {
+		await interaction.reply({ content: "You must have admin permissions to run this command.", ephemeral: true });
+		return;
+	}
+
 	const group = await Group.findOne({
 		guildId: interaction.guildId!
 	});
@@ -54,7 +65,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 			new ActionRowBuilder<TextInputBuilder>().addComponents(
 				new TextInputBuilder()
 					.setCustomId("bannerUrl")
-					.setLabel("Banner Image URL (we recommend 600x900)")
+					.setLabel("Optional: Banner Image URL (we recommend 2:3)")
 					.setStyle(TextInputStyle.Short)
 					.setRequired(false)
 					.setValue(bannerUrl)
@@ -62,7 +73,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 			new ActionRowBuilder<TextInputBuilder>().addComponents(
 				new TextInputBuilder()
 					.setCustomId("websiteUrl")
-					.setLabel("Website URL (start with https://)")
+					.setLabel("Optional: Website URL (start with https://)")
 					.setStyle(TextInputStyle.Short)
 					.setRequired(false)
 					.setValue(websiteUrl)
@@ -70,7 +81,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 			new ActionRowBuilder<TextInputBuilder>().addComponents(
 				new TextInputBuilder()
 					.setCustomId("discordInvite")
-					.setLabel("Discord Invite URL")
+					.setLabel("Optional: Discord Invite URL")
 					.setStyle(TextInputStyle.Short)
 					.setRequired(false)
 					.setValue(discordInvite)
@@ -78,6 +89,25 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 		);
 
 	await interaction.showModal(modal);
+
+
+	const embed = {
+		title: "Imperion Bot Notice",
+		description: [
+			"**Imperion is an independent group, and is not associated with Ish's State or its team.**",
+			"\n- This bot must **never** be given additional permissions.",
+			"- The Imperion role must **never** be elevated above any privileged roles, such as event staff or group admins.",
+			"- The bot does **not** collect any additional data outside of the group name and any data you add into the form.",
+			"- All of this data will be **deleted after the event ends**."
+		].join("\n"),
+		color: 0x2b2d31
+	};
+
+	await interaction.followUp({
+		embeds: [embed],
+		ephemeral: true
+	});
+
 }
 
 export default {
